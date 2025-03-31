@@ -1,6 +1,6 @@
 from flask import Flask, redirect, url_for, render_template, request
 import os
-import send_alert_email
+import send_alert_email, privacy_detector
 
 app = Flask(__name__)
 
@@ -24,15 +24,30 @@ def upload():
         return "파일이 선택되지 않았습니다.", 400
     
     #파일 저장
-    file.save(os.path.join(UPLOAD_PATH, file.filename))
-
+    file_path = os.path.join(UPLOAD_PATH, file.filename)
+    file.save(file_path)
+    print(file_path)
+    
     #업로드 후 결과 페이지로 리다이렉트
-    return redirect(url_for('result'))
 
 
 #결과 페이지
-@app.route('/result')
+@app.route('/result', methods=['POST'])
 def result():
+    if "file" not in request.files:
+        return "파일이 없습니다.", 400
+    
+    file = request.files["file"]
+    if file.filename == "":
+        return "파일이 선택되지 않았습니다.", 400
+    
+    #파일 저장
+    file_path = os.path.join(UPLOAD_PATH, file.filename)
+    file.save(file_path)
+    print(file_path)
+
+    result = privacy_detector.privacy_detector(file_path)
+    print(result)
     return render_template("result.html")
 
 
