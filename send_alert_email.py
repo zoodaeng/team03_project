@@ -3,12 +3,14 @@ from email.mime.text import MIMEText
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
+
 
 def send_alert_email(filename, detected_info):
-    sender_email = os.getenv("FROM_EMAIL_ID") # 발신자 이메일
+    
+    load_dotenv()
+    sender_email = os.getenv("EMAIL_ID") # 발신자 이메일
     sender_password = os.getenv("EMAIL_PW") # 발신자 이메일 비밀번호
-    recipient_email = "admin@example.com"  # 담당자 이메일
+    recipient_email = os.getenv("EMAIL_ID")  # 담당자 이메일
     
     smtp_name = "smtp.naver.com" 
     smtp_port = 587   
@@ -18,7 +20,8 @@ def send_alert_email(filename, detected_info):
     for label, matches in detected_info.items():
         body += f"{label}: {', '.join(matches)}\n"
 
-    msg = MIMEText(body)
+    print(body)
+    msg = MIMEText(body, 'plain', 'utf-8')
     msg["Subject"] = subject
     msg["From"] = sender_email
     msg["To"] = recipient_email

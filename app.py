@@ -46,8 +46,13 @@ def result():
     file.save(file_path)
     print(file_path)
 
+    #민감정보 탐지 결과(딕셔너리) result 변수에 저장
     result = privacy_detector.privacy_detector(file_path)
     print(result)
+
+    #결과 메일로 전송
+    send_alert_email.send_alert_email(file.name, result)
+
     return render_template("result.html")
 
 
