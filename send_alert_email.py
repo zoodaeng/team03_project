@@ -16,7 +16,7 @@ def send_alert_email(filename, detected_info):
     subject = f"민감정보 포함 파일 업로드됨: {filename}"
     body = f"파일 '{filename}'에서 다음과 같은 민감정보가 탐지되었습니다:\n\n"
     for label, matches in detected_info.items():
-        body += f"{label}: {', '.join(matches)}\n"
+        body += f"{label}: {', '.join(map(str, matches))}\n"
 
     #디버깅용
     print('-' * 70)

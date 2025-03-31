@@ -1,5 +1,5 @@
 from flask import Flask, redirect, render_template, request
-import os
+import os, itertools
 import send_alert_email, check_sensitive_info
 
 app = Flask(__name__)
@@ -30,15 +30,19 @@ def result():
     print(f'파일이 업로드 되었습니다: {file_path}\n')
 
     #민감한 정보 탐지 및 결과값 저장
-    #personal_info 변수: 개인정보(연락처, 이메일, ...)
-    #sensitive_info 변수: 민감정보(종교, 주량, ...)
-    personal_info, sensitive_info = check_sensitive_info.check_sensitive_info(file_path)
-    
-    #탐지된 정보가 있을 경우, 메일 전송 실행
-    if personal_info != False:
-        send_alert_email.send_alert_email(file.filename, personal_info)
+    #results 변수: 개인정보(연락처, 이메일, ...)
+    #add_info 변수: 민감정보(종교, 주량, ...)
+    results, add_info = check_sensitive_info.check_sensitive_info(file_path)
+    print("results:", results)
 
-    return render_template("result.html")
+    # 길이가 다른 리스트도 None으로 채워서 zip하기(빈 값은 "없음"으로 채움)
+    results_zipped = list(itertools.zip_longest(results["email"], results["person"], results["num"], results["addr"], results["card"], fillvalue="없음"))
+
+    #탐지된 정보가 있을 경우, 메일 전송 실행
+    if results != False:
+        send_alert_email.send_alert_email(file.filename, results)
+
+    return render_template("result.html", results=results_zipped)
 
 
 if __name__ == '__main__':
