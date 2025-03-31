@@ -10,7 +10,7 @@ def index():
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    upload_path = 'uploads'
+    UPLOAD_PATH = 'uploads'
     if "file" not in request.files:
         return "파일이 없습니다.", 400
     
@@ -19,7 +19,7 @@ def upload():
     if file.filename == "":
         return "파일이 선택되지 않았습니다.", 400
     
-    file.save(os.path.join("uploads", file.filename))
+    file.save(os.path.join(UPLOAD_PATH, file.filename))
     return "업로드 완료"
     
 

@@ -3,8 +3,9 @@ from email.mime.text import MIMEText
 from dotenv import load_dotenv
 import os
 
+load_dotenv()
+
 def send_alert_email(filename, detected_info):
-    load_dotenv()
     sender_email = os.getenv("FROM_EMAIL_ID") # 발신자 이메일
     sender_password = os.getenv("EMAIL_PW") # 발신자 이메일 비밀번호
     recipient_email = "admin@example.com"  # 담당자 이메일
@@ -30,3 +31,5 @@ def send_alert_email(filename, detected_info):
         print("이메일 전송 성공!")
     except Exception as e:
         print("이메일 전송 실패:", e)
+    finally:
+        server.quit()
