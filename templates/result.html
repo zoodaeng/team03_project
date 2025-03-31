@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style.css')}}">
 </head>
 <body>
     <h1>업로드 결과</h1>
-    <h2>추출된 내용</h2>
+    <p>추출된 내용</p>
     <pre>{{ text }}</pre>
     <a href="/">돌아가기</a>
 </body>
