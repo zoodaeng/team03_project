@@ -3,8 +3,6 @@ from email.mime.text import MIMEText
 from dotenv import load_dotenv
 import os
 
-
-
 def send_alert_email(filename, detected_info):
     
     load_dotenv()
@@ -20,7 +18,11 @@ def send_alert_email(filename, detected_info):
     for label, matches in detected_info.items():
         body += f"{label}: {', '.join(matches)}\n"
 
-    print(body)
+    #디버깅용
+    print('-' * 70)
+    print(f"메일 본문:\n{body}")
+    print('-' * 70)
+
     msg = MIMEText(body, 'plain', 'utf-8')
     msg["Subject"] = subject
     msg["From"] = sender_email
