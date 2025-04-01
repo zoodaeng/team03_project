@@ -50,14 +50,12 @@ def result():
         results_zipped = False
     else:
         results_zipped = list(itertools.zip_longest(
-        results["email"], results["person"], results["num"], results["addr"], results["card"],
-        fillvalue="없음"
-    ))
-
-    #탐지된 정보가 있을 경우, 메일 전송 실행
-    if results != False:
+            results["email"], results["person"], results["num"], results["addr"], results["card"],
+            fillvalue="없음"
+        ))
+        #탐지된 정보가 있을 경우, 메일 전송 실행
         send_alert_email.send_alert_email(file.filename, results)
-
+        
     return render_template("result.html", results=results_zipped)
 
 
