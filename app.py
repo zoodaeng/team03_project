@@ -45,8 +45,14 @@ def result():
     else:
         return "MongoDB 연결 오류. 데이터를 저장할 수 없습니다.", 500
 
-    # 길이가 다른 리스트도 None으로 채워서 zip하기(빈 값은 "없음"으로 채움)
-    results_zipped = list(itertools.zip_longest(results["email"], results["person"], results["num"], results["addr"], results["card"], fillvalue="없음"))
+     # 길이가 다른 리스트도 None으로 채워서 zip하기(빈 값은 "없음"으로 채움)
+    if all(len(results[key]) == 0 for key in results):
+        results_zipped = False
+    else:
+        results_zipped = list(itertools.zip_longest(
+        results["email"], results["person"], results["num"], results["addr"], results["card"],
+        fillvalue="없음"
+    ))
 
     #탐지된 정보가 있을 경우, 메일 전송 실행
     if results != False:
