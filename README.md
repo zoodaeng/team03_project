@@ -24,6 +24,7 @@
    - SMTP를 활용하여 탐지 결과를 보안 담당자에게 이메일로 전송
      
 5. **데이터베이스 저장**  
+   - 업로드된 파일명, 업로드 시간, 탐지 결과 등을 MongoDB에 저장
 
 ---
 
@@ -38,7 +39,8 @@
 ├── 📂 uploads                  # 업로드 파일 저장 폴더
 ├── 📜 app.py                   # Flask 서버 및 주요 로직
 ├── 📜 check_sensitive_info.py  # 민감정보 탐지 함수
-└── 📜 send_alert_email.py      # 보안 담당자 이메일 전송 함수
+├── 📜 send_alert_email.py      # 보안 담당자 이메일 전송 함수
+└── 📜 db_utils.py              # 결과값 DB 저장 함수
 
 ```
 
